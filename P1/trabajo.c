@@ -34,7 +34,7 @@ int buscarLibreTrabajo(eTrabajo listaTrabajo[], int tamTrabajo)
     }
     return indice;
 }
-int altaTrabajo(eTrabajo listaTrabajo[], int tamTrabajo,eNotebook lista[],int tamNotebook, eMarca marcas[],int tamMarcas,eTipos tipos[], int tamTipos,eServicios servicios[],int tamServicios, int* pIdTrabajo)
+int altaTrabajo(eTrabajo listaTrabajo[], int tamTrabajo,eNotebook lista[],int tamNotebook, eMarca marcas[],int tamMarcas,eTipos tipos[], int tamTipos,eServicios servicios[],int tamServicios, int* pIdTrabajo,eCliente clientes[],int tamClientes)
 {
     int todoOk=0;
     int indice;
@@ -71,7 +71,7 @@ int altaTrabajo(eTrabajo listaTrabajo[], int tamTrabajo,eNotebook lista[],int ta
 
 
 //ID NOTEBOOK
-                mostrarNotebooks(lista,tamNotebook,marcas,tamMarcas,tipos,tamTipos);
+                mostrarNotebooks(lista,tamNotebook,marcas,tamMarcas,tipos,tamTipos,clientes,tamClientes);
                 printf("Ingrese ID Notebook:\n");
                 while(!scanf("%d",&auxTrabajo.idNotebook))
                 {
@@ -170,7 +170,7 @@ int mostrarTrabajos(eTrabajo listaTrabajo[],int tamTrabajo, eNotebook lista[], i
         system("cls");
         printf("                    ***Lista de trabajos***\n");
         printf("------------------------------------------------------------------------------\n");
-        printf("  Id        id notebook             id  servicio                        fecha \n");
+        printf("  Id        id notebook-modelo          id  servicio                        fecha \n");
         for(int i=0; i<tamTrabajo; i++)
         {
             //tengo que filtrar no puedo recorrer todo el array
@@ -193,4 +193,21 @@ int mostrarTrabajos(eTrabajo listaTrabajo[],int tamTrabajo, eNotebook lista[], i
 
 
     return todoOk;
+}
+int buscarTrabajoId(eTrabajo listaTrabajo[], int tamTrabajo, int id)
+{
+    int indice=-1;
+    if((listaTrabajo!=NULL && tamTrabajo>0) && id>=20000)//SI quieto id lo puedo reutilizar
+    {
+
+        for(int i=0; i<tamTrabajo;i++)
+        {
+            if(listaTrabajo[i].id== id && listaTrabajo[i].isEmpty==0)//si la estructura no esta vacia y el id es igual id
+            {
+                indice=i;
+                break;
+            }
+        }
+    }
+    return indice;
 }

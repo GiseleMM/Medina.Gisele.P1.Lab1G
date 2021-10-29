@@ -6,7 +6,8 @@
 #include "fecha.h"
 #include "notebook.h"
 #include "marca.h"
-
+#include "utn.h"
+#include "cliente.h"
 /*Desarrollar en ANSI C:
 Se necesita gestionar un Service de Notebooks y para eso se deberá desarrollar lo siguiente:
 ENTIDADES:
@@ -62,6 +63,7 @@ I. LISTAR TRABAJOS*/
 #define TAM_TIPOS 4
 #define TAM_SERVICIOS 4
 #define TAM_TRABAJOS 4
+#define TAM_CLIENTES 4
 
 
 
@@ -78,16 +80,17 @@ I. LISTAR TRABAJOS*/
 
 
 
-int validarCaracter(char auxChar, char a, char b);
 
 
 
 int main()
 {
+
     //int banderaUnAlta=0;//para que no ingrese a modificar y baja
     int nextIdNotbook=7000;
     int nextIdTrabajo=8000;
-    int rta;
+    int nextIdCliente=90000;
+    //int rta;
     eMarca marcas[]=
     {
         {1000,"Compaq"},
@@ -104,13 +107,18 @@ int main()
     };
     eServicios servicios[]=
     {
-        {2000,"Bateria",2250},
-        {2001,"Display",10300},
-        {2002,"Mantenimiento",4400},
-        {2003,"Fuente",5600}
+        {20000,"Bateria",2250},
+        {20001,"Display",10300},
+        {20002,"Mantenimiento",4400},
+        {20003,"Fuente",5600}
     };
+
+    eCliente clientes[TAM_CLIENTES];
+
+
 //ARRAY DE ENOTEBOOKS
     eNotebook lista[TAM_NOTEBOOK];
+
     if(!inicializarNotebook(lista,TAM_NOTEBOOK))
     {
         printf("problemas al inicializar notebook\n!");
@@ -129,7 +137,7 @@ int main()
         {
         case 'A':
             printf("Alta notebook\n");
-            if(!altaNotebook(lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS, &nextIdNotbook))
+            if(!altaNotebook(lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS, &nextIdNotbook,clientes,TAM_CLIENTES,&nextIdCliente))
             {
                 printf("\nNo se pudo realizar el alta\n");
             }
@@ -139,18 +147,7 @@ int main()
                 //banderaUnAlta=1;
             }
             break;
-        /*
-        case 2:
-        printf("Baja persona\n");
-        if(!bajaPersona(lista,TAM,localidades,TAM_LOC))
-        {
-            printf("No se pudo realizar la baja\n");
-        }
-        else
-        {
-            printf("Baja exitosa");
-        }
-        break;*/
+
         case 'B':
             //  if(banderaUnAlta==1)
             // {
@@ -158,7 +155,7 @@ int main()
             //printf("rta %d",rta);
             system("pause");
             printf("                    ***Modificar ***                          \n");
-            if(modificarNotebook(lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS))
+            if(modificarNotebook(lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS,clientes,TAM_CLIENTES))
             {
                 printf("Modificacion exitosa\n");
             }
@@ -166,16 +163,12 @@ int main()
             {
                 printf("no se pudo realizar la modificacion\n");
             }
-            //   }
-            // else
-            //{
-            // printf("No hay Notebooks ingresadas");
-            // }
+
 
             break;
         case 'C':
             printf("Baja Notebook\n");
-            if(!bajaNotebook(lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS))
+            if(!bajaNotebook(lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS,clientes,TAM_CLIENTES))
             {
                 printf("No se pudo realizar la baja\n");
             }
@@ -185,19 +178,10 @@ int main()
             }
             break;
 
-        /*printf("Ordenar personas\n");
-        if(ordenarPersonas(lista,TAM))
-        {
-            printf("ordenamiento Exitoso");
-        }
-        else
-        {
-            printf("No se pudo realizar el ordenamiento");
-        }
-        break;*/
+
         case 'D':
             printf("Listar notebooks\n");
-            mostrarNotebooks(lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS);
+            mostrarNotebooks(lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS,clientes,TAM_CLIENTES);
             break;
         case 'E':
             system("cls");
@@ -231,7 +215,7 @@ int main()
         case 'H':
             system("cls");
             printf("Alta trabajo");
-            if(!altaTrabajo(listaTrabajo,TAM_TRABAJOS,lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS,servicios,TAM_SERVICIOS,&nextIdTrabajo))
+            if(!altaTrabajo(listaTrabajo,TAM_TRABAJOS,lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS,servicios,TAM_SERVICIOS,&nextIdTrabajo,clientes,TAM_CLIENTES))
             {
                 printf("No se pudo realizar el alta Trabajo\n");
             }
@@ -265,18 +249,11 @@ int main()
 
     return 0;
 }
-//funcione
-int validarCaracter(char auxChar, char a, char b)
-{
-    int todoOk=0;
 
-    auxChar=tolower(auxChar);
-    if(auxChar==a || auxChar==b)
-    {
-        todoOk=1;
-    }
-    return todoOk;
-}
+
+
+
+
 
 
 

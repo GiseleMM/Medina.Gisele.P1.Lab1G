@@ -36,27 +36,32 @@ int inicializarNotebook(eNotebook lista[],int tamNotebook)
     return todoOk;
 }
 
-void mostrarNotebook(eNotebook p,int tamNotebook,eMarca marcas[],int tamMarcas,eTipos tipos[],int tamTipos)
+void mostrarNotebook(eNotebook p,int tamNotebook,eMarca marcas[],int tamMarcas,eTipos tipos[],int tamTipos,eCliente cliente[],int tamCliente)
 {
     //char descripcionLoc[20];//vector de caracteres donde yo pueda copiar ahi las localidades
     //cargarDescripcionLocalidades(localidades, tamLoc, p.idLocalidades , descripcionLoc);
     char descripcionMarcas[20];
     char descripcionTipos[20];
+    char descripcionNombre[20];
     int rta1;
     int rta2;
+    int rta3;
+    rta3=cargarDescripcionNombre(cliente,tamCliente,p.idCliente,descripcionNombre);
     rta2=cargarDescripcionMarcas(marcas,tamMarcas,p.idMarca,descripcionMarcas);
     rta1=cargarDescripcionTipos(tipos,tamTipos,p.idTipo,descripcionTipos);
-    if(rta1==1 && rta2==1)
+    if(rta1==1 && rta2==1 && rta3==1)
     {
 
-        printf("%2d        %-14s     %2d %-14s    %2d %-14s    %.2f\n",
+        printf("%2d        %-14s     %2d %-14s    %2d %-14s    %.2f     %2d  %-14s\n",
                p.id,
                p.modelo,
                p.idMarca,
                descripcionMarcas,
                p.idTipo,
                descripcionTipos,
-               p.precio
+               p.precio,
+               p.idCliente,
+               descripcionNombre
               );
     }
 
@@ -65,7 +70,7 @@ void mostrarNotebook(eNotebook p,int tamNotebook,eMarca marcas[],int tamMarcas,e
 
 }
 
-int mostrarNotebooks(eNotebook lista[], int tamNotebook, eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos)
+int mostrarNotebooks(eNotebook lista[], int tamNotebook, eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente clientes[], int tamClientes)
 {
     int todoOk=0;
     int banderaNohayNotebook=1;
@@ -85,7 +90,7 @@ int mostrarNotebooks(eNotebook lista[], int tamNotebook, eMarca marcas[], int ta
             if(lista[i].isEmpty==0)// o podria negar (!lista[i].isEmpty)
             {
                 //si el elemento de la lista no esta ocupado lo muestro
-                mostrarNotebook(lista[i],tamNotebook,marcas,tamMarcas,tipos,tamTipos);
+                mostrarNotebook(lista[i],tamNotebook,marcas,tamMarcas,tipos,tamTipos,clientes,tamClientes);
                 banderaNohayNotebook=0;//mostre persona
 
             }
@@ -138,15 +143,15 @@ int buscarNotebookId(eNotebook lista[], int tamNotebook, int id)
     return indice;
 }
 
-int altaNotebook(eNotebook lista[], int tamNotebook,eMarca marcas[],int tamMarcas,eTipos tipos[], int tamTipos, int* pIdNotebook)
+int altaNotebook(eNotebook lista[], int tamNotebook,eMarca marcas[],int tamMarcas,eTipos tipos[], int tamTipos, int* pIdNotebook,eCliente clientes[], int tamClientes, int* pIdCliente)
 {
     int todoOk=0;
     int indice;
     int tamModelo=20;
     eNotebook auxNotebook;// me va permitir cargar todos los datos y validarlos ahi es  como un buffer
+    eCliente auxNombre;
 
-
-    if(lista!=NULL && tamNotebook>0 && marcas!=NULL && tamMarcas>0)
+    if(lista!=NULL && tamNotebook>0 && marcas!=NULL && tamMarcas>0 && tipos!=NULL && tamTipos>0 && pIdNotebook!=NULL )
     {
         system("cls");//una vez que valide limpio la patalla
         printf("\n                   Alta Notebook                          \n");
@@ -165,7 +170,8 @@ int altaNotebook(eNotebook lista[], int tamNotebook,eMarca marcas[],int tamMarca
             //scanf("%d", &auxPersona.id);
             auxNotebook.id= *pIdNotebook;//accedo al valor de la direccion de memoria con el operador de indireccion
             (*pIdNotebook)++;//primero el valor y despues el incremento
-            //no se reutilizan los id. nadie de baja de algo .Nosostros vamos a ser una baja logica pero en la vida real no
+            auxNotebook.idCliente=*pIdCliente;
+            (*pIdCliente)++;    //no se reutilizan los id. nadie de baja de algo .Nosostros vamos a ser una baja logica pero en la vida real no
 
  //MODELO
             printf("Ingrese Modelo:\n");
@@ -206,10 +212,15 @@ int altaNotebook(eNotebook lista[], int tamNotebook,eMarca marcas[],int tamMarca
                 fflush(stdin);
                 printf("precio invalido Reingrese\n");
             }
+            printf("ingrese nombre cliente");
+            fflush(stdin);
+
+            gets(auxNombre.nombre);
 
             auxNotebook.isEmpty=0;//indico que esta lleno el campo isEmpty
             lista[indice] =auxNotebook;//entre al else por que hay indice libre, enla posicion indice que es la que devolvio buscarLibre
             //esta funcion la usaria en el case 1
+            clientes[indice]=auxNombre;
             todoOk=1; // si se pudo dar de alta
 
 
@@ -218,7 +229,7 @@ int altaNotebook(eNotebook lista[], int tamNotebook,eMarca marcas[],int tamMarca
     }
     return todoOk;
 }
-int bajaNotebook(eNotebook lista[],int tamNotebook,eMarca marcas[],int tamMarcas,eTipos tipos[],int tamTipos)
+int bajaNotebook(eNotebook lista[],int tamNotebook,eMarca marcas[],int tamMarcas,eTipos tipos[],int tamTipos,eCliente clientes[],int tamCliente)
 {
     int todoOk=0;
     int indice;//declaro el indice y el id
@@ -231,7 +242,7 @@ int bajaNotebook(eNotebook lista[],int tamNotebook,eMarca marcas[],int tamMarcas
         {
             printf("\n                  Baja notebook        \n");
             printf("\n----------------------------------------------------------\n");
-            mostrarNotebooks(lista,tamNotebook,marcas,tamMarcas,tipos,tamTipos);
+            mostrarNotebooks(lista,tamNotebook,marcas,tamMarcas,tipos,tamTipos,clientes,tamCliente);
             printf("\nIngrese id:\n");
             scanf("%d", &id);
             indice= buscarNotebookId(lista,tamNotebook,id);//busco el id
@@ -241,7 +252,7 @@ int bajaNotebook(eNotebook lista[],int tamNotebook,eMarca marcas[],int tamMarcas
             }
             else
             {
-                mostrarNotebook(lista[indice],tamNotebook,marcas,tamMarcas,tipos,tamTipos);//muestro la persona que esta en la posicion indice
+                mostrarNotebook(lista[indice],tamNotebook,marcas,tamMarcas,tipos,tamTipos,clientes,tamCliente);//muestro la persona que esta en la posicion indice
                 printf("\nConfirma baja s/n: \n");
                 fflush(stdin);
                 scanf("%c", &confirma);
@@ -271,7 +282,7 @@ int bajaNotebook(eNotebook lista[],int tamNotebook,eMarca marcas[],int tamMarcas
     }
     return todoOk;
 }
-int modificarNotebook(eNotebook lista[], int tamNotebook, eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos)
+int modificarNotebook(eNotebook lista[], int tamNotebook, eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente)
 {
     int todoOk=0;
     int indice;//declaro el indice y el id
@@ -289,7 +300,7 @@ int modificarNotebook(eNotebook lista[], int tamNotebook, eMarca marcas[], int t
         {
             printf("\n                   ***Modificar***                        \n");
             printf("---------------------------------------------------------------------\n");
-            mostrarNotebooks(lista,tamNotebook,marcas,tamMarcas,tipos,tamTipos);
+            mostrarNotebooks(lista,tamNotebook,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
             printf("\nIngrese Id:\n");
             while(!scanf("%d", &id))
             {
@@ -304,7 +315,7 @@ int modificarNotebook(eNotebook lista[], int tamNotebook, eMarca marcas[], int t
             }
             else
             {
-                mostrarNotebook(lista[indice],tamNotebook,marcas,tamMarcas,tipos,tamTipos);//muestro la persona que esta en la posicion indice
+                mostrarNotebook(lista[indice],tamNotebook,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);//muestro la persona que esta en la posicion indice
                 printf("\nConfirma modificacion s/n:\n");
                 fflush(stdin);
                 scanf("%c", &confirma);
