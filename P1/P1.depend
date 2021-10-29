@@ -1,0 +1,58 @@
+# depslib dependency file v1.0
+1635467248 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\marca.c
+	"marca.h"
+
+1635467248 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\marca.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1635467456 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\fecha.c
+	"fecha.h"
+
+1635467456 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\fecha.h
+
+1635467248 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\servicio.c
+	"servicio.h"
+
+1635467248 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\servicio.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1635467248 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\tipo.c
+	"tipo.h"
+
+1635467248 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\tipo.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1635469384 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"trabajo.h"
+	"fecha.h"
+	"notebook.h"
+	"marca.h"
+
+1635467248 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\trabajo.h
+	"fecha.h"
+	"notebook.h"
+	"servicio.h"
+
+1635467248 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\notebook.h
+	"marca.h"
+	"tipo.h"
+
+1635469384 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\notebook.c
+	"notebook.h"
+
+1635467893 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\trabajo.c
+	"trabajo.h"
+
