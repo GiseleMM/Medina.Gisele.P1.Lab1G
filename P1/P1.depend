@@ -31,7 +31,7 @@
 	<string.h>
 	<ctype.h>
 
-1635549071 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\main.c
+1639354265 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -48,27 +48,28 @@
 	"notebook.h"
 	"servicio.h"
 
-1635548973 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\notebook.h
+1639414912 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\notebook.h
 	"marca.h"
 	"tipo.h"
 	"utn.h"
 	"cliente.h"
 
-1635549737 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\notebook.c
+1639417288 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\notebook.c
 	"notebook.h"
 
 1635548973 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\trabajo.c
 	"trabajo.h"
 
-1635521869 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\utn.h
+1639416214 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\utn.h
+	<ctype.h>
 
-1635521867 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\utn.c
+1639416727 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\utn.c
 	"utn.h"
 
-1635547672 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\cliente.c
+1639354544 source:c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\cliente.c
 	"cliente.h"
 
-1635547735 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\cliente.h
+1639324823 c:\users\1\desktop\medina.gisele.p1.lab.1g\medina.gisele.p1.lab1g\p1\cliente.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

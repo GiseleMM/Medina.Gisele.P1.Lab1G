@@ -12,6 +12,8 @@ int cargarDescripcionNombre(eCliente clientes[],int tamClientes, int idCliente, 
             if(clientes[i].id==idCliente)
             {
                 strcpy(descripcionNombre,clientes[i].nombre);
+                //puts(descripcionNombre);
+                //system("pause");
                 break;
             }
         }
@@ -35,4 +37,12 @@ int inicializarCliente(eCliente cliente[],int tamCliente)
 
     }
     return todoOk;
+}
+void mostrarCliente(eCliente p,int tamCliente)
+{
+
+        printf("%2d        %-14s     %2d\n",
+               p.id,p.nombre,p.sexo);
+    //no muestro el isEmpty por que es una herramienta interna
+
 }

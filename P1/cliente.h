@@ -14,4 +14,6 @@ typedef struct{
 
 
 #endif // CLIENTE_H_INCLUDED
+int inicializarCliente(eCliente cliente[],int tamCliente);
 int cargarDescripcionNombre(eCliente clientes[],int tamClientes, int idCliente, char descripcionNombre[]);
+void mostrarCliente(eCliente p,int tamCliente);

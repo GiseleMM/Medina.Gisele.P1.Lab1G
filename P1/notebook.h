@@ -149,3 +149,16 @@ int menu();
  *
  */
 int cargarDescripcionModelo(eNotebook lista[],int tamNotebook, int idNotebook, char descripcionModelo[]);
+/** \brief MENU DE INFORMES
+ *
+ * \return char opcion
+ *
+ */
+char menuInformes();
+int informesNotebooks(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente);
+int mostrarSegunTipo(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente);
+int mostrarSegunMarca(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente);
+int mostrarMasBarataNotebooks(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente);
+int mostrarListadoNotebooksOrdenadoPorMarca(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente);
+int contarNotebooksPorMarcaYTipo(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente);
+int mostrarMarcaMasElegida(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente);

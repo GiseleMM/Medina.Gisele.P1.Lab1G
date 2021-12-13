@@ -8,52 +8,27 @@
 #include "marca.h"
 #include "utn.h"
 #include "cliente.h"
-/*Desarrollar en ANSI C:
-Se necesita gestionar un Service de Notebooks y para eso se deberá desarrollar lo siguiente:
-ENTIDADES:
-Fecha:
-• dia
-• mes
-• año
-Marca:
-• id (comienza en 1000)
-• descripción (máx 20 caracteres)
-Tipo:
-• id (comienza en 5000)
-• descripción (máx 20 caracteres)
-Notebook:
-• id
-• modelo (máx 20 caracteres)
-• idMarca Validar
-• idTipo Validar
-• precio
-Servicio:
-• id(comienza en 20000)
-• descripción (máximo 25 caracteres)
-• precio
-Trabajo:
-• id (autoincremental)
-• idNotebook (debe existir) Validar
-• idServicio (debe existir) Validar
-• fecha (Validar día, mes y año)
-DATOS PREVIOS:
-Los arrays de marca, tipo y servicio deberán ser hardcodeados.
-Marcas (Compaq, Asus, Acer, HP)
-Tipos ( Gamer, Disenio, Ultrabook, Normalita)
-Servicios (Bateria: $2250, Display: $10300, Mantenimiento: $4400, Fuente: $5600)
-MENU DE OPCIONES:
-A. ALTA NOTEBOOK
-B. MODIFICAR NOTEBOOK: Se ingresará el id de la notebook, permitiendo en un submenú modificar:
-• precio
-• tipo
-C. BAJA NOTEBOOK: Se ingresará el id de la notebook y se realizará una baja lógica.
-D. LISTAR NOTEBOOKS: Hacer un único listado de todas las notebooks ordenadas por marca y precio.
-E. LISTAR MARCAS
-F. LISTAR TIPOS
-G. LISTAR SERVICIOS
-H. ALTA TRABAJO: Se dará de alta cada ocurrencia de trabajo pidiéndole al usuario que elija una
-notebook y un Servicio
-I. LISTAR TRABAJOS*/
+
+/***INFORMES COMPLEMENTARIOS PARCIAL ABM NOTEBOOKS
+1- Mostrar las notebooks del tipo seleccionado por el usuario.
+2- Mostrar notebooks de una marca seleccionada.
+3- Informar la o las notebooks más baratas.
+4- Mostrar un listado de las notebooks separadas por marca.
+5- Elegir un tipo y una marca y contar cuantas notebooks hay de ese tipo y esa marca.
+6- Mostrar la o las marcas más elegidas por los clientes.
+Bonus Track
+Hardcodear algunos trabajos
+7- Pedir una notebook y mostrar todos los trabajos que se le hicieron a la misma.
+8- Pedir un notebook e informar la suma de los importes de los services se le hicieron a la
+misma.
+9- Pedir un servicio y mostrar las notebooks a las que se realizó ese servicio y la fecha.
+10- Pedir una fecha y mostrar todos los servicios realizados en la misma.
+
+Importante: Aquellos alumnos que no hayan podido entregar la primera parte del parcial
+Deberán agregar al proyecto una estructura cliente: con campo id, nombre, sexo.
+La notebook deberá tener el campo idCliente. Y cuando se muestre el listado de
+notebooks se deberá informar el nombre del dueño
+*/
 
 
 
@@ -113,7 +88,12 @@ int main()
         {20003,"Fuente",5600}
     };
 
+//ARRAY DE CLIENTES
     eCliente clientes[TAM_CLIENTES];
+if(!inicializarCliente(clientes,TAM_CLIENTES))
+{
+     printf("problemas al inicializar Clientes\n!");
+}
 
 
 //ARRAY DE ENOTEBOOKS
@@ -227,6 +207,11 @@ int main()
         case 'I':
             printf("Listar trabajos");
             mostrarTrabajos(listaTrabajo,TAM_TRABAJOS,lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS,servicios,TAM_SERVICIOS);
+            break;
+        case 'J':
+            printf("INFORMES\n");
+            informesNotebooks(lista,TAM_NOTEBOOK,marcas,TAM_MARCAS,tipos,TAM_TIPOS,clientes,TAM_CLIENTES);
+
             break;
         case 'S':
 

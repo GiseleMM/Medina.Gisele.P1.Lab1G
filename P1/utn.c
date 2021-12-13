@@ -21,3 +21,20 @@ int validarRangoEntero(int auxInt, int limI, int limS)
 
     return todoOk;
 }
+int validarPalabra(char palabra[])
+{
+
+int todoOk=1;
+    int i=0;
+    while(palabra[i]!='\0')
+    {
+        if(!isalpha(palabra[i]))
+        {
+            todoOk=0;
+            break;
+        }
+        i++;
+    }
+
+    return todoOk;
+}

@@ -10,9 +10,7 @@ int buscarLLeno(eNotebook lista[], int tamNotebook)
             if(lista[i].isEmpty==0)//es lo mismo que (lista[i].isEmpty)
             {
                 todoOk=1;
-                break;//cuando la encontramos salimos por que si no estariamos devolviendo la ultima posicion ocupada
-                // acomodariamos gente desde el final del array al primero
-                //error de rendimiento funciona igual
+                break;
             }
         }
 
@@ -47,6 +45,8 @@ void mostrarNotebook(eNotebook p,int tamNotebook,eMarca marcas[],int tamMarcas,e
     int rta2;
     int rta3;
     rta3=cargarDescripcionNombre(cliente,tamCliente,p.idCliente,descripcionNombre);
+    // printf("%d rta\n",rta3);
+    //system("pause");
     rta2=cargarDescripcionMarcas(marcas,tamMarcas,p.idMarca,descripcionMarcas);
     rta1=cargarDescripcionTipos(tipos,tamTipos,p.idTipo,descripcionTipos);
     if(rta1==1 && rta2==1 && rta3==1)
@@ -173,11 +173,12 @@ int altaNotebook(eNotebook lista[], int tamNotebook,eMarca marcas[],int tamMarca
             auxNotebook.idCliente=*pIdCliente;
             (*pIdCliente)++;    //no se reutilizan los id. nadie de baja de algo .Nosostros vamos a ser una baja logica pero en la vida real no
 
- //MODELO
+//MODELO
             printf("Ingrese Modelo:\n");
             fflush(stdin);
             gets(auxNotebook.modelo);
             validarModelo(auxNotebook.modelo,tamModelo);
+
 //MARCA
 
             mostrarMarcas(marcas,tamMarcas);
@@ -212,15 +213,38 @@ int altaNotebook(eNotebook lista[], int tamNotebook,eMarca marcas[],int tamMarca
                 fflush(stdin);
                 printf("precio invalido Reingrese\n");
             }
-            printf("ingrese nombre cliente");
+
+//CLIENTE
+            printf("ingrese nombre cliente: ");
             fflush(stdin);
-
             gets(auxNombre.nombre);
+           while(!validarPalabra(auxNombre.nombre))
+           {
+               fflush(stdin);
+               printf("Error Reingrese Nombre: ");
+               gets(auxNombre.nombre);
+           }
 
+
+            auxNombre.id=auxNotebook.idCliente;//coloco el mismo id que notebook
+
+            printf("ingrese sexo f/m: ");
+            fflush(stdin);
+            scanf("%c",&auxNombre.sexo);
+            while(!validarCaracter(auxNombre.sexo,'f','m'))
+            {
+                fflush(stdin);
+                printf("dato no valido Reingrese sexo:");
+                scanf("%c",&auxNombre.sexo);
+            }
+
+
+            auxNombre.isEmpty=0;//CLIENTE CARGADO
             auxNotebook.isEmpty=0;//indico que esta lleno el campo isEmpty
             lista[indice] =auxNotebook;//entre al else por que hay indice libre, enla posicion indice que es la que devolvio buscarLibre
             //esta funcion la usaria en el case 1
             clientes[indice]=auxNombre;
+            // mostrarCliente(clientes[indice],tamClientes);
             todoOk=1; // si se pudo dar de alta
 
 
@@ -247,7 +271,8 @@ int bajaNotebook(eNotebook lista[],int tamNotebook,eMarca marcas[],int tamMarcas
             scanf("%d", &id);
             indice= buscarNotebookId(lista,tamNotebook,id);//busco el id
             if(indice==-1)
-            {//no se encuentra en el  sistema
+            {
+                //no se encuentra en el  sistema
                 printf("\nId: %d  no esta registrado en  el sistema\n", id);
             }
             else
@@ -345,7 +370,7 @@ int modificarNotebook(eNotebook lista[], int tamNotebook, eMarca marcas[], int t
                         lista[indice].precio=auxPrecio;
                         printf("%f",lista[indice].precio);
 
-    //actualizo el nombre
+                        //actualizo el nombre
                         break;
                     case 'B':
                         mostrarTipos(tipos,tamTipos);
@@ -448,9 +473,8 @@ int validarModelo(char modelo[],int tamModelo)
             gets(modelo);
 
         }
-        todoOk=1;
     }
-      return todoOk;
+    return todoOk;
 }
 int menu()
 {
@@ -466,6 +490,7 @@ int menu()
     printf("G- Listar Servicios\n");
     printf("H- Alta trabajo\n");
     printf("I- Listar trabajo\n");
+    printf("J- Informes\n");
     printf("S- Salir\n");
     printf("Ingrese opcion: \n ");
     fflush(stdin);
@@ -500,4 +525,385 @@ int cargarDescripcionModelo(eNotebook lista[],int tamNotebook, int idNotebook, c
     }
     return todoOk;
 
+}
+//INFORMES------------------------
+char menuInformes()
+{
+    system("cls");
+    char opcion;
+    printf("----Menu Informes----\n");
+    printf("A)-Mostrar las notebooks del tipo seleccionado por el usuario.\n");
+    printf("B)-Mostrar notebooks de una marca seleccionada.\n");
+    printf("C)-Informar la o las notebooks más baratas.\n");
+    printf("D)-Mostrar un listado de las notebooks separadas por marca.\n");
+    printf("E)-Elegir un tipo y una marca y contar cuantas notebooks hay de ese tipo y esa marca.\n");
+    printf("F)-Mostrar la o las marcas más elegidas por los clientes.\n");
+    printf("S)-SALIR.\n");
+    printf("Eliga opcion");
+    fflush(stdin);
+    while(!scanf("%c",&opcion))
+    {
+        fflush(stdin);
+        printf("Error, opcion invalida\n");
+    }
+    opcion=toupper(opcion);
+    return opcion;
+
+}
+int informesNotebooks(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente)
+{
+    int todoOk=0;
+    int seguir=0;
+    do
+    {
+        switch(menuInformes())
+        {
+        case 'A':
+            //Mostrar las notebooks del tipo seleccionado por el usuario.
+            mostrarSegunTipo(lista,tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+            break;
+        case 'B':
+            //"Mostrar notebooks de una marca seleccionada;
+            mostrarSegunMarca(lista,tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+            break;
+        case 'C':
+            mostrarMasBarataNotebooks(lista,tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+            break;
+        case 'D':
+            mostrarListadoNotebooksOrdenadoPorMarca(lista,tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+            break;
+        case 'E':
+            contarNotebooksPorMarcaYTipo(lista,tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+            break;
+        case 'F':
+            mostrarMarcaMasElegida(lista,tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+            break;
+        case 'S':
+            seguir=10;
+            break;
+        default:
+            printf("Opcion invalida\n");
+            break;
+
+        }//FIN DEL SWITCH----------------------------------------------------------
+    //system("pause");
+    }
+    while(seguir!=10);
+
+
+
+
+
+    return todoOk;
+}
+int mostrarSegunTipo(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente)
+{
+    int todoOk=0;
+    int idTipos;
+    int seMostro=0;
+    if(lista!=NULL && tamNotebooks>0 && marcas!=NULL && tamMarcas>0 && tipos!=NULL && tamTipos>0 && cliente!=NULL && tamCliente>0)
+    {
+        printf("***Mostrar segun tipo***\n");
+        mostrarTipos(tipos,tamTipos);
+        printf("INGRESE id:  ");
+        fflush(stdin);
+        while(!scanf("%d",&idTipos))
+        {
+            fflush(stdin);
+            printf("Error Reingrese id tipos:\n");
+        }
+
+        switch(idTipos)
+        {
+        case 5000:
+            seMostro=1;
+            for(int i=0; i<tamNotebooks; i++)
+            {
+                if(lista[i].isEmpty==0 && lista[i].idTipo==5000)// o podria negar (!lista[i].isEmpty)
+                {
+                    //si el elemento de la lista no esta ocupado lo muestro
+                    mostrarNotebook(lista[i],tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+
+                }
+            }
+             system("pause");
+            break;
+        case 5001:
+            seMostro=1;
+                        for(int i=0; i<tamNotebooks; i++)
+            {
+                if(lista[i].isEmpty==0 && lista[i].idTipo==5001)// o podria negar (!lista[i].isEmpty)
+                {
+                    //si el elemento de la lista no esta ocupado lo muestro
+                    mostrarNotebook(lista[i],tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+
+                }
+            }
+             system("pause");
+            break;
+        case 5002:
+            seMostro=1;
+                        for(int i=0; i<tamNotebooks; i++)
+            {
+                if(lista[i].isEmpty==0 && lista[i].idTipo==5002)// o podria negar (!lista[i].isEmpty)
+                {
+                    //si el elemento de la lista no esta ocupado lo muestro
+                    mostrarNotebook(lista[i],tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+
+                }
+            }
+              system("pause");
+            break;
+        case 5003:
+            seMostro=1;
+                        for(int i=0; i<tamNotebooks; i++)
+            {
+                if(lista[i].isEmpty==0 && lista[i].idTipo==5003)// o podria negar (!lista[i].isEmpty)
+                {
+                    //si el elemento de la lista no esta ocupado lo muestro
+                    mostrarNotebook(lista[i],tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+
+                }
+            }
+            system("pause");
+            break;
+        default:
+            printf("Opcion invalida\n");
+            break;
+        }
+    }
+
+
+if(seMostro)
+{
+      todoOk=1;
+}
+
+    return todoOk;
+}
+int mostrarSegunMarca(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente)
+{
+    int todoOk=0;
+    int idMarcas;
+    int seMostro=0;
+    if(lista!=NULL && tamNotebooks>0 && marcas!=NULL && tamMarcas>0 && tipos!=NULL && tamTipos>0 && cliente!=NULL && tamCliente>0)
+    {
+        printf("***Mostrar segun Marca***\n");
+        mostrarMarcas(marcas,tamMarcas);
+        printf("INGRESE id marca:  ");
+        fflush(stdin);
+        while(!scanf("%d",&idMarcas))
+        {
+            fflush(stdin);
+            printf("Error Reingrese id marcas:\n");
+        }
+
+        switch(idMarcas)
+        {
+        case 1000:
+            seMostro=1;
+            for(int i=0; i<tamNotebooks; i++)
+            {
+                if(lista[i].isEmpty==0 && lista[i].idMarca==1000)// o podria negar (!lista[i].isEmpty)
+                {
+                    //si el elemento de la lista no esta ocupado lo muestro
+                    mostrarNotebook(lista[i],tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+
+                }
+            }
+            system("pause");
+            break;
+        case 1001:
+            seMostro=1;
+
+                        for(int i=0; i<tamNotebooks; i++)
+            {
+                if(lista[i].isEmpty==0 && lista[i].idMarca==1001)// o podria negar (!lista[i].isEmpty)
+                {
+                    //si el elemento de la lista no esta ocupado lo muestro
+                    mostrarNotebook(lista[i],tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+
+
+                }
+            }
+             system("pause");
+            break;
+        case 1002:
+            seMostro=1;
+                        for(int i=0; i<tamNotebooks; i++)
+            {
+                if(lista[i].isEmpty==0 && lista[i].idMarca==1002)// o podria negar (!lista[i].isEmpty)
+                {
+                    //si el elemento de la lista no esta ocupado lo muestro
+                    mostrarNotebook(lista[i],tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+
+                }
+            }
+            system("pause");
+            break;
+        case 1003:
+            seMostro=1;
+                        for(int i=0; i<tamNotebooks; i++)
+            {
+                if(lista[i].isEmpty==0 && lista[i].idMarca==1003)// o podria negar (!lista[i].isEmpty)
+                {
+                    //si el elemento de la lista no esta ocupado lo muestro
+                    mostrarNotebook(lista[i],tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+
+                }
+            }
+              system("pause");
+
+            break;
+        default:
+            printf("Opcion invalida\n");
+            break;
+        }
+    }
+
+
+if(seMostro)
+{
+      todoOk=1;
+}
+
+    return todoOk;
+}
+int mostrarMasBarataNotebooks(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente)
+{
+     int todoOk=0;
+     float precioMasBajo;
+     int flagMasBarato=0;
+     if(lista!=NULL && tamNotebooks>0 && marcas!=NULL && tamMarcas>0 && tipos!=NULL && tamTipos>0 && cliente!=NULL && tamCliente>0)
+     {
+         for(int i=0;i<tamNotebooks;i++)
+         {
+             if((lista[i].isEmpty==0) && ((flagMasBarato==0) || lista[i].precio< precioMasBajo))
+                {
+                    precioMasBajo=lista[i].precio;
+                        flagMasBarato=1;
+                }
+         }
+         printf("El precio mas barato es %f\n",precioMasBajo);
+         for (int i=0;i<tamNotebooks;i++)
+         {
+             if((lista[i].isEmpty==0) && (lista[i].precio==precioMasBajo))
+             {
+                 mostrarNotebook(lista[i],tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+
+             }
+         }
+           system("pause");//FUERA DE FOR
+     }
+    return todoOk;
+}
+int mostrarListadoNotebooksOrdenadoPorMarca(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente)
+{
+    int todoOk=0;
+    eNotebook auxSwap;
+     if(lista!=NULL && tamNotebooks>0 && marcas!=NULL && tamMarcas>0 && tipos!=NULL && tamTipos>0 && cliente!=NULL && tamCliente>0)
+     {
+         for(int i=0;i<tamNotebooks-1;i++)
+         {
+            for(int j=i+1;j<tamNotebooks;j++)
+            {
+                if((lista[i].isEmpty==0) && (lista[i].idMarca  >  lista[j].idMarca))
+                {
+                    auxSwap=lista[i];
+                    lista[i]=lista[j];
+                    lista[j]=auxSwap;
+                }
+            }
+
+         }
+          mostrarNotebooks(lista,tamNotebooks,marcas,tamMarcas,tipos,tamTipos,cliente,tamCliente);
+         todoOk=1;
+         system("pause");
+     }
+
+
+    return todoOk;
+}
+int contarNotebooksPorMarcaYTipo(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente)
+{
+    int todoOk=0;
+    int contador=0;
+    int marcaSeleccionada;
+    int tipoSeleccionada;
+
+     if(lista!=NULL && tamNotebooks>0 && marcas!=NULL && tamMarcas>0 && tipos!=NULL && tamTipos>0 && cliente!=NULL && tamCliente>0)
+     {
+         mostrarMarcas(marcas,tamMarcas);
+        printf("\nIngrese id de Marca seleccionada: ");
+        while(!scanf("%d",&marcaSeleccionada))
+        {
+            fflush(stdin);
+            printf("valor no valido Reingrese\n");
+        }
+        mostrarTipos(tipos,tamTipos);
+        printf("\nIngrese id Tipo: ");
+        while(!scanf("%d",&tipoSeleccionada))
+        {
+            fflush(stdin);
+            printf("Valor no valido REingrese\n");
+        }
+        if(validarIdMarca(marcaSeleccionada,marcas,tamMarcas) && validarIdTipos(tipoSeleccionada,tipos,tamTipos))
+        {
+            for(int i=0;i<tamNotebooks;i++)
+            {
+                if((lista[i].isEmpty==0) && (lista[i].idMarca==marcaSeleccionada && lista[i].idTipo==tipoSeleccionada))
+                {
+                    contador++;
+                }
+            }
+            printf("la cantidad de notebooks del tipo y marca selleccionada es %d\n",contador);
+            system("pause");
+            todoOk=1;
+        }
+        else
+        {
+            printf("Valor de id invalido\n");
+            system("pause");
+        }
+
+     }
+
+
+    return todoOk;
+}
+int mostrarMarcaMasElegida(eNotebook lista[],int tamNotebooks,eMarca marcas[], int tamMarcas, eTipos tipos[], int tamTipos,eCliente cliente[],int tamCliente)
+{
+    int todoOk=0;
+    int contadorMarcas=0;
+    int marcaMasElegida;
+    char descripcionDeMarcaMasElegida[30];
+
+     if(lista!=NULL && tamNotebooks>0 && marcas!=NULL && tamMarcas>0 && tipos!=NULL && tamTipos>0 && cliente!=NULL && tamCliente>0)
+     {
+                 printf("Cantidad de  notebook de cada marcan");
+        for(int i=0; i<tamMarcas; i++)
+        {
+            printf("Marcas: %s\n",marcas[i].descripcion);
+            contadorMarcas=0;//cada vez que voy a comenzar a contar la cantidad de personas que viven en esa localidad lo reseteo
+            for(int j=0; j<tamNotebooks; j++) //lista con>> j
+            {
+                if(!lista[j].isEmpty && lista[j].idMarca==marcas[i].id)
+                {
+                    contadorMarcas++;
+                }
+            }
+            printf("cantidad: %d\n\n",contadorMarcas);
+            if(i==0 || contadorMarcas>marcaMasElegida)
+            {
+                marcaMasElegida=contadorMarcas;
+                strcpy(descripcionDeMarcaMasElegida, marcas[i].descripcion);
+
+            }
+        }
+
+        printf("la marca mas elegida es %s con %d cantidad\n",descripcionDeMarcaMasElegida,marcaMasElegida);
+        todoOk=1;
+     }
+     system("pause");
+     return todoOk;
 }

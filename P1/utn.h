@@ -1,6 +1,7 @@
 #ifndef UTN_H_INCLUDED
 #define UTN_H_INCLUDED
 
+#include <ctype.h>
 
 
 #endif // UTN_H_INCLUDED
@@ -24,3 +25,4 @@ int validarCaracter(char auxChar, char a, char b);
  *
  */
 int validarRangoEntero(int auxInt, int limI, int limS);
+int validarPalabra(char palabra[]);
